@@ -21,6 +21,12 @@ battery_state=$(tr "[a-z]" "[A-Z]" <<< $battery_state)
 battery_level=$(upower -i $battery_device | grep "perce" | awk '{print $2}')
 battery_level=$(sed 's/%//' <<< $battery_level)
 
+# Added this since it never seems to actually reach 100%
+if [ "$battery_level" == "99" ]; then
+ battery_state="Full"
+ battery_level="100"
+ fi
+
 printf "batt: %c(%03d%%)\n" "$battery_state" "$battery_level"
 
 # Here is an example of the dump command for `upower`:
