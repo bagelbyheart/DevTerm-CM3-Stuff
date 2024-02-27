@@ -1,0 +1,13 @@
+multiuser on
+defscrollback 10000
+
+# Per the gnu screen manual this sets backtick id 1 to run every 5s when the screen
+# refreshes. Link here:
+# https://www.gnu.org/software/screen/manual/screen.html#Backtick
+
+backtick 1 5 0 /usr/bin/bash /home/pi/DevTerm-CM3-Stuff/battery_tool.sh
+
+# This guide was key to making this caption:
+# https://aperiodic.net/screen/truncation_padding_escapes
+
+caption always "%{=b wk}[%H] %L=%{= dd}%{= wk}%-w%45L>%{=b rk}(%n-%t)%{-} %+w%=%-26= %{=b wk}[%1`][%c:%s]"
