@@ -21,7 +21,7 @@ battery_state=$(tr "[a-z]" "[A-Z]" <<< $battery_state)
 battery_level=$(upower -i $battery_device | grep "perce" | awk '{print $2}')
 battery_level=$(sed 's/%//' <<< $battery_level)
 
-printf "battery: %c(%03d%%)\n" "$battery_state" "$battery_level"
+printf "batt: %c(%03d%%)\n" "$battery_state" "$battery_level"
 
 # Here is an example of the dump command for `upower`:
 #
