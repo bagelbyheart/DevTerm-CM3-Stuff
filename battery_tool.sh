@@ -21,17 +21,28 @@ battery_state=$(tr '[:lower:]' '[:upper:]' <<< "$battery_state")
 battery_level=$(upower -i $battery_device | grep "perce" | awk '{print $2}')
 battery_level=${battery_level/\%/}
 
+# screen doesn't handle fancy characters correctly in hardstatus
+if [ -n "$STY" ]; then
+ full_glyph="✓"
+ charge_glyph="▲"
+ dis_glyph="▼"
+else
+ full_glyph="F"
+ charge_glyph="^"
+ dis_glyph="v"
+fi
+
 # Added this since it never seems to actually reach 100%
 if [ "$battery_level" == "99" ] && [ "$battery_state" == "CHARGING" ]; then
- battery_state="✓"
+ battery_state="$full_glyph"
  battery_level="100"
 else
  case $battery_state in
   C*)
-   battery_state="▲"
+   battery_state="$charge_glyph"
    ;;
   D*)
-   battery_state="▼"
+   battery_state="$dis_glyph"
    ;;
  esac
 fi
