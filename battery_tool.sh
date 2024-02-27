@@ -22,7 +22,7 @@ battery_level=$(upower -i $battery_device | grep "perce" | awk '{print $2}')
 battery_level=${battery_level/\%/}
 
 # Added this since it never seems to actually reach 100%
-if [ "$battery_level" == "99" ] && [ "$battery_state" == "C" ]; then
+if [ "$battery_level" == "99" ] && [ "$battery_state" == "CHARGING" ]; then
  battery_state="Full"
  battery_level="100"
  fi
