@@ -23,11 +23,20 @@ battery_level=${battery_level/\%/}
 
 # Added this since it never seems to actually reach 100%
 if [ "$battery_level" == "99" ] && [ "$battery_state" == "CHARGING" ]; then
- battery_state="Full"
+ battery_state="✓"
  battery_level="100"
- fi
+else
+ case $battery_state in
+  C*)
+   battery_state="▲"
+   ;;
+  D*)
+   battery_state="▼"
+   ;;
+ esac
+fi
 
-printf "batt: %c(%03d%%)\n" "$battery_state" "$battery_level"
+printf "BATT:%c(%03d%%)\n" "$battery_state" "$battery_level"
 
 # Here is an example of the dump command for `upower`:
 #
