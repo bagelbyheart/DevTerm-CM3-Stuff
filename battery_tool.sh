@@ -47,7 +47,7 @@ else
  esac
 fi
 
-printf "BATT:%c(%03d%%)\n" "$battery_state" "$battery_level"
+printf "BATT:%lc(%03d%%)\n" "$battery_state" "$battery_level"
 
 # Here is an example of the dump command for `upower`:
 #
