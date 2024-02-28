@@ -15,11 +15,16 @@
 # [battery: C(005%)] <- Charging at 5%
 #
 
+main () {
 battery_device="/org/freedesktop/UPower/devices/battery_axp20x_battery"
 battery_state=$(upower -i $battery_device | grep "state" | awk '{print $2}')
 battery_state=$(tr '[:lower:]' '[:upper:]' <<< "$battery_state")
 battery_level=$(upower -i $battery_device | grep "perce" | awk '{print $2}')
 battery_level=${battery_level/\%/}
+
+time_clock=$(date +%H:%M:%S)
+ipv4_addr=$(ip route list | head -1 | grep -Eo "src.*" | grep -Eo "([0-9]{1,3}[\.]){3}[0-9]{1,3}")
+
 
 # screen doesn't handle fancy characters correctly in hardstatus
 if [ -n "$STY" ]; then
@@ -47,7 +52,17 @@ else
  esac
 fi
 
-printf "BATT:%c(%03d%%)\n" "$battery_state" "$battery_level"
+printf "[BATT:%c(%03d%%)][%s]\n" "$battery_state" "$battery_level" "$time_clock"
+}
+
+if [ -n "$1" ]; then
+ while true; do
+  main
+  sleep 1
+ done
+else
+ main
+fi
 
 # Here is an example of the dump command for `upower`:
 #
